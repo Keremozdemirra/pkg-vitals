@@ -603,6 +603,11 @@ def _upward(start: str | None):
     except (RuntimeError, OSError):
         home = None
     d = Path(start)
+    # Resolved like home, or a symlinked prefix (macOS /var -> /private/var) never matches it.
+    try:
+        d = d.resolve()
+    except (RuntimeError, OSError):
+        pass
     for _ in range(40):
         if home is not None and (d == home or d in home.parents):
             return

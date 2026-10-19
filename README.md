@@ -147,14 +147,19 @@ No install, standard library only, Python 3.9 or later:
 curl -sL https://raw.githubusercontent.com/Keremozdemirra/pkg-vitals/main/pkg_vitals.py | python3 - npm left-pad
 ```
 
-Or from PyPI:
+Or install it from GitHub (it is not on PyPI), pinned to the `v0.1.0` tag; drop `@v0.1.0`
+for the newest commit on `main`:
 
 ```bash
-uvx pkg-vitals npm left-pad @scope/pkg@^2          # names, with a version or range if you have one
-pipx run pkg-vitals pypi "requests==2.32.0" httpx
-uvx pkg-vitals -- npm install foo bar@2 -D         # a whole install command, after --
-uvx pkg-vitals -- "cd app && npm i x; pip install y"
+uvx --from git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0 pkg-vitals npm left-pad @scope/pkg@^2          # names, with a version or range if you have one
+uvx --from git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0 pkg-vitals pypi "requests==2.32.0" httpx
+uvx --from git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0 pkg-vitals -- npm install foo bar@2 -D         # a whole install command, after --
+uvx --from git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0 pkg-vitals -- "cd app && npm i x; pip install y"
+pipx install git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0                                              # puts pkg-vitals and pkg-vitals-hook on PATH
+pip install git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0
 ```
+
+From a checkout: `git clone https://github.com/Keremozdemirra/pkg-vitals && python3 pkg-vitals/pkg_vitals.py npm left-pad`.
 
 | Option | What it does |
 | --- | --- |
@@ -175,7 +180,7 @@ Fail a job when a direct dependency picks up a serious flag (exit 1) or cannot b
 checked (exit 2):
 
 ```yaml
-- run: pipx run pkg-vitals --strict npm express@^5 zod@^4
+- run: pipx run --spec git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0 pkg-vitals --strict npm express@^5 zod@^4
 ```
 
 ### As a hook, without the plugin
@@ -193,7 +198,7 @@ handler as its own process, so the script does the filtering itself.
 }
 ```
 
-With `pkg-vitals` installed (`pipx install pkg-vitals`), `pkg-vitals-hook` is on your `PATH`.
+With `pkg-vitals` installed (`pipx install git+https://github.com/Keremozdemirra/pkg-vitals@v0.1.0`), `pkg-vitals-hook` is on your `PATH`.
 
 ### Settings
 
